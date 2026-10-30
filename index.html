@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Satwik Kotta, UCLA Anderson MSBA. Data, AI and business projects with live dashboards and code.">
+<title>Satwik Kotta Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single reading column of "findings" cards, each led by the number that matters, with a filter rail by theme */
+:root {
+  --bg: #edf1f4;
+  --surface: #ffffff;
+  --ink: #0f1c2a;
+  --muted: #536271;
+  --line: #d2dbe2;
+  --accent: #0a6a86;
+  --accent-soft: #dcecf1;
+  --warn: #8a5a12;
+  --warn-soft: #f6ecda;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b121a; --surface: #121c26; --ink: #e5edf2; --muted: #93a3b1; --line: #233240;
+    --accent: #62c3dc; --accent-soft: #15303a; --warn: #e2b36a; --warn-soft: #2e2416; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b121a; --surface: #121c26; --ink: #e5edf2; --muted: #93a3b1; --line: #233240;
+  --accent: #62c3dc; --accent-soft: #15303a; --warn: #e2b36a; --warn-soft: #2e2416; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1080px; margin: 0 auto; }
+
+/* Header */
+header.hero { padding-block: 56px 36px; display: grid; gap: 20px; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--mono); font-size: 13px; color: var(--muted); letter-spacing: 0.02em; }
+.eyebrow b { color: var(--accent); font-weight: 500; }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(44px, 8vw, 88px); line-height: 0.95; letter-spacing: -0.03em; margin: 0; text-wrap: balance; }
+.lede { font-size: clamp(18px, 2.3vw, 22px); max-width: 34ch; margin: 0; color: var(--ink); text-wrap: balance; }
+.lede em { font-style: normal; color: var(--accent); }
+.contact { display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: 15px; align-items: center; }
+.contact .mail { font-family: var(--mono); font-size: 14px; user-select: all; color: var(--ink); }
+.copy { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.copy:hover { border-color: var(--accent); }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.facts li { font-size: 13.5px; padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); }
+.facts li strong { color: var(--ink); font-weight: 600; }
+
+/* Thesis */
+.thesis { padding-block: 34px 8px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 28px; align-items: start; }
+.thesis h2 { font-family: var(--display); font-weight: 700; font-size: 28px; line-height: 1.1; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.thesis p { margin: 0; color: var(--muted); max-width: 62ch; }
+
+/* Filters */
+.filters { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 18px 14px; display: flex; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.chip { font: inherit; font-size: 14px; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip .n { font-family: var(--mono); font-size: 12px; opacity: 0.7; margin-left: 4px; }
+
+/* Cards */
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding-block: 24px 40px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px 22px 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card .top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.tag { font-family: var(--mono); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.when { font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+.card h3 { font-family: var(--display); font-weight: 700; font-size: 22px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.q { margin: 0; color: var(--muted); font-size: 15px; }
+.figure { display: flex; gap: 14px; align-items: baseline; padding: 12px 14px; background: var(--accent-soft); border-radius: 8px; }
+.figure .num { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; color: var(--accent); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.figure .what { font-size: 14.5px; line-height: 1.4; min-width: 0; }
+.card ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 15px; }
+.miss { font-size: 14px; padding: 9px 12px; border-radius: 8px; background: var(--warn-soft); color: var(--ink); }
+.miss b { color: var(--warn); font-weight: 600; }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.stack span { font-family: var(--mono); font-size: 12px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); }
+.links { display: flex; flex-wrap: wrap; gap: 16px; font-size: 14.5px; font-weight: 500; }
+.links .none { color: var(--muted); font-weight: 400; }
+
+/* Experience */
+section.exp { padding-block: 8px 48px; border-top: 1px solid var(--line); }
+section.exp h2, .edu h2 { font-family: var(--display); font-weight: 700; font-size: 28px; margin: 32px 0 18px; letter-spacing: -0.01em; }
+.roles { display: grid; gap: 0; }
+.role { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; padding-block: 18px; border-top: 1px solid var(--line); }
+.role:first-child { border-top: 0; }
+.role .who { font-weight: 600; }
+.role .meta { font-family: var(--mono); font-size: 12.5px; color: var(--muted); display: block; margin-top: 2px; }
+.role ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.edu { padding-block: 0 56px; border-top: 1px solid var(--line); }
+.edu .rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.edu .rows div { min-width: 0; }
+.edu p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+footer { padding-block: 22px 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: space-between; }
+
+@media (max-width: 760px) {
+  .grid, .edu .rows, .thesis { grid-template-columns: minmax(0, 1fr); }
+  .role { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  header.hero { padding-block: 36px 28px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .card { transition: border-color 0.15s ease, transform 0.15s ease; }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+}
+</style>
+
+<style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">UCLA Anderson MSBA <b>·</b> Class of Dec 2027 <b>·</b> Los Angeles</div>
+    <h1>Satwik Kotta</h1>
+    <p class="lede">I build data and AI products, then I get people to <em>actually use them</em>.</p>
+    <div class="contact">
+      <span class="mail" id="mail">satwikkotta09@gmail.com</span>
+      <button class="copy" id="copyMail" type="button">Copy email</button>
+      <a href="https://www.linkedin.com/in/satwik-kotta/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/satwik-kotta" target="_blank" rel="noopener">GitHub</a>
+      <span>+1 (213) 284 9901</span>
+    </div>
+    <ul class="facts">
+      <li>Grading platform used by <strong>5+ schools</strong> and <strong>76+ teachers</strong></li>
+      <li>Restaurant grown from <strong>6 to 38</strong> staff</li>
+      <li><strong>83%</strong> coupon redemption across 80+ gyms</li>
+      <li>FinTech paper accepted at <strong>WPI FLAME 2026</strong></li>
+    </ul>
+  </header>
+
+  <section class="thesis" aria-labelledby="thesis-h">
+    <h2 id="thesis-h">Results you can check, including the ones that did not work</h2>
+    <p>Almost every project here has a live dashboard or public code. Each one leads with the number that answers its question, and where something failed I say so on the card. A model that beat the baseline, a fancy model that did not, a test that I kept the default on. That is the kind of analysis I think a business can trust, whether a person or an agent is doing it.</p>
+  </section>
+
+  <nav class="filters" aria-label="Filter projects by theme" id="filters"></nav>
+
+  <main class="grid" id="grid"></main>
+
+  <section class="exp" aria-labelledby="exp-h">
+    <h2 id="exp-h">Experience</h2>
+    <div class="roles">
+      <div class="role">
+        <div><span class="who">Freethought Labs</span><span class="meta">Software Engineer Intern · EdTech · Bangalore · May to Sep 2025</span></div>
+        <ul>
+          <li>Led a team of 3 to build Scan to Score, an LLM grading platform now used by 5+ international schools and 76+ teachers. A survey of 50 teachers showed grading time fell 65%.</li>
+          <li>Presented the platform to school directors and turned their requirements into features, including grading for any rubric and Google Classroom sync.</li>
+          <li>Designed the PostgreSQL and MongoDB data model and built dashboards showing where each student needs to improve.</li>
+          <li>Supported teachers through rollout and taught GitHub and databases to teachers and interns.</li>
+        </ul>
+      </div>
+      <div class="role">
+        <div><span class="who">Nanoloy</span><span class="meta">Data Science Intern · Manufacturing · Nagpur · May 2023 to Sep 2024</span></div>
+        <ul>
+          <li>Benchmarked BYD's battery production process against Nanoloy's own.</li>
+          <li>Worked with partners at Schrödinger to rank battery material candidates, cutting research time about 35%.</li>
+          <li>Built Power BI and Tableau dashboards on my own initiative, adopted by 8 R&amp;D members. <a href="https://public.tableau.com/app/profile/satwik.kotta6143/viz/syntheticdata/BatteryMaterialsRDAnalyticssyntheticdata" target="_blank" rel="noopener">Synthetic data demo on Tableau</a></li>
+          <li>Optimized SQL pipelines across PostgreSQL and SQLite, cutting query time 30%.</li>
+        </ul>
+      </div>
+      <div class="role">
+        <div><span class="who">Restaurant owner</span><span class="meta">Food business · Vijayawada · 2024 to now</span></div>
+        <ul>
+          <li>Ran a campaign at 80+ gyms with free samples and coupons that had a short redemption window. 83% of the coupons came back as sales.</li>
+          <li>Grew the team from 6 to 38 and improved margins 9% by comparing supplier quotes and tracking ingredient prices.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="edu" aria-labelledby="edu-h">
+    <h2 id="edu-h">Education</h2>
+    <div class="rows">
+      <div><strong>UCLA Anderson School of Management</strong><p>MS in Business Analytics, expected Dec 2027. Dean's Role Scholarship.</p></div>
+      <div><strong>FLAME University</strong><p>BS in Data Science and Economics, 2022 to 2026. Dean's List 2023. GRE 335.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Satwik Kotta · Los Angeles</span>
+    <span>National level badminton player and university team captain · 975 day Duolingo streak in Japanese</span>
+  </footer>
+</div>
+
+<script>
+const GH = "https://github.com/satwik-kotta/";
+const IO = "https://satwik-kotta.github.io/";
+const projects = [
+  { theme: "ai", tag: "Agentic AI", when: "Apr 2026", title: "Academic Assistant",
+    q: "Can an agent read a course, plan the work and change the plan when a student pushes back?",
+    num: "285", what: "study tasks scheduled across 30 plans and synced to Google Calendar",
+    pts: ["RAG over 230+ pages of course material indexed into 960+ vectors", "Revises plans from plain language feedback like too much workload"],
+    miss: "I A/B tested a new retrieval chunk size on 350 randomized queries. It lost, so I kept the default.",
+    stack: ["Python", "FastAPI", "Gemini", "FAISS", "RAG"], links: [["Code", GH + "AcadAssistant"]] },
+  { theme: "ai", tag: "Agentic AI", when: "2026", title: "Compliance Audit Agent",
+    q: "Can a team of agents audit a proposal against FDA rules without making up citations?",
+    num: "0", what: "unverified citations shown. A plain code verifier removes any quote not found word for word in the rule",
+    pts: ["Five agents, from clause extraction to retrieval to report, over 305 passages of 21 CFR", "Hybrid retrieval finds the governing section in the top 5 for 92% of test clauses"],
+    miss: "Without an LLM key, the keyword baseline caught 14 of 20 violations. The LLM path is not measured yet.",
+    stack: ["Python", "LangChain", "FAISS", "BM25", "React"], links: [["Live demo", IO + "compliance-audit-agent/"], ["Code", GH + "compliance-audit-agent"]] },
+  { theme: "exp", tag: "Experiments", when: "Oct 2026", title: "Content Experiment Audit",
+    q: "Of 25K real headline A/B tests, how many winners were real?",
+    num: "18%", what: "of declared winners held up once I used a corrected test",
+    pts: ["426M impressions modeled in PostgreSQL, 7K tests dropped for broken randomization", "Naive tests called identical variants different 13% of the time instead of 5%", "On held out tests, numbers in a headline lifted clicks 6% and questions cut them 8%"],
+    stack: ["SQL", "PostgreSQL", "Python", "ECharts"], links: [["Dashboard", IO + "content-experiment-audit/dashboard/"], ["Code", GH + "content-experiment-audit"]] },
+  { theme: "exp", tag: "Product analytics", when: "Oct 2026", title: "Game Match and Session Analytics",
+    q: "Does losing a game make a player quit for the session?",
+    num: "−2.0", what: "points once each player is compared with themselves. The raw gap looked bigger",
+    pts: ["Sessionized 19K Lichess games with window functions and a 30 minute rule", "79% of 14K sessions were a single game"],
+    miss: "The confidence interval runs from −4.9 to +1.0, so there is no detectable effect. The dashboard says that plainly.",
+    stack: ["SQL", "PostgreSQL", "Python", "ECharts"], links: [["Dashboard", IO + "game-session-analytics/dashboard/"], ["Code", GH + "game-session-analytics"]] },
+  { theme: "data", tag: "Data engineering", when: "Oct 2026", title: "Event Warehouse",
+    q: "Can 13 GB of nested JSON become a warehouse people can query fast and trust?",
+    num: "175×", what: "faster on a season level query, from 67.6 s to 0.39 s, through partitioning",
+    pts: ["14.9M events turned into a Parquet star schema of 13 tables", "33 data quality checks, 274 orphan files quarantined, all 7,922 scores reconciled"],
+    stack: ["PySpark", "Parquet", "pytest", "Star schema"], links: [["Run report", IO + "event-warehouse-spark/"], ["Code", GH + "event-warehouse-spark"]] },
+  { theme: "forecast", tag: "Forecasting", when: "2026", title: "Texas Grid Load Forecast",
+    q: "How well can we forecast Texas demand, and what did Hurricane Harvey really do to it?",
+    num: "3.14%", what: "hourly error with LightGBM, against 6.97% for the best simple baseline",
+    pts: ["AWS pipeline on S3, Glue and Athena over 45K hours of load and weather data", "39% of Houston's 25% post Harvey drop was cooler weather, not lost demand"],
+    miss: "My Transformer did not beat gradient boosting on hourly error. It did win on the daily peak.",
+    stack: ["AWS", "Python", "LightGBM", "PyTorch"], links: [["Dashboard", IO + "grid-load-forecast/"], ["Code", GH + "grid-load-forecast"]] },
+  { theme: "forecast", tag: "Risk", when: "2026", title: "Chain Anomaly Tracing",
+    q: "Which Bitcoin transactions should a financial crime analyst look at first?",
+    num: "499", what: "of the first 500 alerts were known illicit transactions",
+    pts: ["203,769 transactions and their payment flows loaded into SQLite with graph features", "The top 25 payment clusters hold 2.5% of transactions and 24% of known illicit activity"],
+    miss: "After a dark market closed, catch rate fell from 86% to 2%. The graph neural network also lost to gradient boosting.",
+    stack: ["SQL", "SQLite", "LightGBM", "GCN"], links: [["Dashboard", IO + "chain-anomaly-tracing/"], ["Code", GH + "chain-anomaly-tracing"]] },
+  { theme: "forecast", tag: "Manufacturing", when: "2026", title: "Fab Yield Risk",
+    q: "Which wafer sensors actually move yield, and which only look like they do?",
+    num: "16 → 1", what: "sensors flagged by correlation, and the one that survived adjustment",
+    pts: ["924,530 sensor readings streamed into PostgreSQL across 1,567 wafer runs", "High risk runs failed at twice the line average"],
+    miss: "Ranking runs by risk only worked weakly, with an AUC of 0.64. Placebo runs flagged 0 sensors, so the method does not invent findings.",
+    stack: ["PostgreSQL", "Python", "ECharts", "Causal inference"], links: [["Dashboard", IO + "fab-yield-risk/"], ["Code", GH + "fab-yield-risk"]] },
+  { theme: "business", tag: "Cost and pricing", when: "2026", title: "Battery Cell Cost Tracker",
+    q: "What should an EV battery cell cost this month, and why did it move?",
+    num: "$68.3", what: "per kWh for an NMC 811 cell, rebuilt monthly from six IMF metal prices",
+    pts: ["Lithium explains $6.6 of the $11.4 a year rise for NMC 811", "Sodium ion matches LFP on cost when lithium carbonate falls to $13,961 a tonne", "Cost exposure rolled up by automaker from 2025 US sales"],
+    stack: ["Python", "Linear programming", "Monte Carlo", "GitHub Actions"], links: [["Code", GH + "battery-cost-tracker"]] },
+  { theme: "ai", tag: "EdTech", when: "2026", title: "Adaptive Learning Bandit",
+    q: "Can a tutor that only sees right and wrong answers pick better next questions than a textbook?",
+    num: "+4.6", what: "points of mastery over a fixed textbook sequence across 2,000 simulated students",
+    pts: ["Slowest third of learners gained the most, 0.30 against 0.17", "Settings tuned on one group of students and tested on a fresh one"],
+    miss: "Untuned, the bandit lost to the textbook. It also hurts fast learners. Everything here is simulation.",
+    stack: ["Python", "Bandits", "Simulation"], links: [["Dashboard", IO + "adaptive-learning-bandit/"], ["Code", GH + "adaptive-learning-bandit"]] },
+  { theme: "business", tag: "Research", when: "2026", title: "CBDC Sentiment Paper",
+    q: "How did the public react when countries launched central bank digital currencies?",
+    num: "5", what: "countries studied, China, USA, India, Nigeria and Jamaica, using a hand labeled sentiment dataset",
+    pts: ["Paper accepted at the 2026 WPI FLAME FinTech Conference"],
+    stack: ["NLP", "BERT", "Python"], links: [["Code", GH + "DTSC484-Project-CBDC-Satwik-Kotta"]] },
+  { theme: "business", tag: "Go to market", when: "2024 to now", title: "Gym Coupon Campaign",
+    q: "How do you get new customers into a small restaurant without an ad budget?",
+    num: "83%", what: "of coupons came back as sales after sampling at 80+ gyms",
+    pts: ["Free food samples plus coupons with a short redemption window", "Part of growing the restaurant from 6 to 38 staff"],
+    stack: ["Field marketing", "Pricing"], links: [] }
+];
+const themes = [["all", "All work"], ["ai", "Agentic AI"], ["exp", "Experiments and product"], ["data", "Data engineering"], ["forecast", "Forecasting and risk"], ["business", "Business"]];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const grid = document.getElementById("grid");
+const filters = document.getElementById("filters");
+
+function card(p) {
+  const links = p.links.length
+    ? p.links.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(t)}</a>`).join("")
+    : `<span class="none">No public link</span>`;
+  return `<article class="card" data-group="${p.theme}">
+    <div class="top"><span class="tag">${esc(p.tag)}</span><span class="when">${esc(p.when)}</span></div>
+    <h3>${esc(p.title)}</h3>
+    <p class="q">${esc(p.q)}</p>
+    <div class="figure"><span class="num">${esc(p.num)}</span><span class="what">${esc(p.what)}</span></div>
+    <ul>${p.pts.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+    ${p.miss ? `<div class="miss"><b>What did not work.</b> ${esc(p.miss)}</div>` : ""}
+    <div class="stack">${p.stack.map(s => `<span>${esc(s)}</span>`).join("")}</div>
+    <div class="links">${links}</div>
+  </article>`;
+}
+
+let current = "all";
+try { current = localStorage.getItem("sk-filter") || "all"; } catch (e) {}
+if (!themes.some(t => t[0] === current)) current = "all";
+
+function render() {
+  const list = current === "all" ? projects : projects.filter(p => p.theme === current);
+  grid.innerHTML = list.map(card).join("");
+  filters.innerHTML = themes.map(([k, label]) => {
+    const n = k === "all" ? projects.length : projects.filter(p => p.theme === k).length;
+    return `<button class="chip" type="button" id="f-${k}" data-k="${k}" aria-pressed="${k === current}">${esc(label)}<span class="n">${n}</span></button>`;
+  }).join("");
+}
+filters.addEventListener("click", e => {
+  const b = e.target.closest("button[data-k]");
+  if (!b) return;
+  current = b.dataset.k;
+  try { localStorage.setItem("sk-filter", current); } catch (e) {}
+  render();
+});
+render();
+
+document.getElementById("copyMail").addEventListener("click", e => {
+  const btn = e.currentTarget, text = "satwikkotta09@gmail.com";
+  const done = () => { btn.textContent = "Copied"; setTimeout(() => btn.textContent = "Copy email", 1600); };
+  try {
+    navigator.clipboard.writeText(text).then(done, () => {
+      const r = document.createRange(); r.selectNodeContents(document.getElementById("mail"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected, press copy";
+    });
+  } catch (err) {
+    const r = document.createRange(); r.selectNodeContents(document.getElementById("mail"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+});
+</script>
+
+</body>
+</html>
