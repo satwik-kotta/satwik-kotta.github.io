@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Product case study of Scan to Score, an LLM grading platform for international schools, by Satwik Kotta.">
+<title>Scan to Score Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #edf1f4; --surface: #ffffff; --ink: #0f1c2a; --muted: #536271; --line: #d2dbe2;
+  --accent: #0a6a86; --accent-soft: #dcecf1;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0b121a; --surface: #121c26; --ink: #e5edf2; --muted: #93a3b1; --line: #233240; --accent: #62c3dc; --accent-soft: #15303a; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #0b121a; --surface: #121c26; --ink: #e5edf2; --muted: #93a3b1; --line: #233240; --accent: #62c3dc; --accent-soft: #15303a; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; margin: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--accent); text-underline-offset: 3px; }
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 40px 72px; }
+.back { font-family: var(--mono); font-size: 13px; }
+.eyebrow { font-family: var(--mono); font-size: 13px; color: var(--muted); margin: 28px 0 8px; }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(38px, 7vw, 64px); line-height: 1; letter-spacing: -0.02em; margin: 0 0 16px; }
+.lede { font-size: clamp(18px, 2.4vw, 21px); margin: 0 0 28px; max-width: 40ch; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 0 0 40px; padding: 0; list-style: none; }
+.stats li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.stats b { display: block; font-family: var(--display); font-size: 30px; line-height: 1.1; color: var(--accent); }
+.stats span { font-size: 14px; color: var(--muted); }
+h2 { font-family: var(--display); font-weight: 700; font-size: 26px; margin: 40px 0 10px; letter-spacing: -0.01em; }
+p { margin: 0 0 14px; }
+ul.plain { margin: 0 0 14px; padding-left: 20px; }
+ul.plain li { margin-bottom: 6px; }
+.callout { background: var(--accent-soft); border-radius: 12px; padding: 16px 18px; margin: 18px 0; }
+.note { font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); margin-top: 48px; padding-top: 16px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="back" href="../">&larr; All projects</a>
+  <p class="eyebrow">Product case study &middot; Freethought Labs &middot; May to Sep 2025</p>
+  <h1>Scan to Score</h1>
+  <p class="lede">An LLM grading platform for international schools that gives teachers their time back while keeping them in charge of every grade.</p>
+
+  <ul class="stats">
+    <li><b>76+</b><span>teachers using it</span></li>
+    <li><b>5+</b><span>international schools</span></li>
+    <li><b>250+</b><span>assignments graded a week</span></li>
+    <li><b>65%</b><span>less grading time (survey of 50 teachers)</span></li>
+    <li><b>12</b><span>feedback rounds</span></li>
+    <li><b>8</b><span>features shipped</span></li>
+  </ul>
+
+  <p>I was a Software Engineer Intern at Freethought Labs and the product lead for Scan to Score. I led a team of three and owned the product from the first conversations with schools through to launch and rollout. Schools are still using it today.</p>
+
+  <h2>The problem</h2>
+  <p>Teachers at the international schools we worked with were grading everything by hand. That took hours every week, and it was time they wanted to spend with students on other activities. Some schools were already thinking about hiring teaching assistants just to keep up with grading.</p>
+  <p>So the real customer need was not "grade faster". It was "give me back time with my students without losing control of how my students are assessed".</p>
+
+  <h2>Who I built it for</h2>
+  <ul class="plain">
+    <li><strong>School directors</strong>, who decide whether the school adopts a tool and care about cost, consistency and trust.</li>
+    <li><strong>Teachers</strong>, who use it every day and are responsible for every grade.</li>
+    <li><strong>Students</strong>, who need to know where they lost marks and what to work on next.</li>
+  </ul>
+
+  <h2>The options we weighed</h2>
+  <p>Hiring teaching assistants was the option schools already knew. It adds cost every term and still leaves a lot of manual checking. Fully automated AI grading was the opposite end, and it was where we started. When we showed it to teachers, they were clear that they did not want the AI to have the final say. They wanted to stay in the loop.</p>
+  <div class="callout">That feedback changed the product. Scan to Score became a tool where the AI does the first pass against the teacher's rubric and the teacher reviews, edits and approves every grade. Teachers keep control, and the time saving still holds.</div>
+
+  <h2>How I worked</h2>
+  <p>I ran twelve feedback rounds and PowerPoint demos with school directors and teachers. Each round, I took what they asked for and turned it into features, and I used the next round to check if it worked for them. Eight features shipped this way, including these.</p>
+  <ul class="plain">
+    <li><strong>Rubric based grading</strong> that works with all kinds of rubrics, so teachers grade on their own criteria and not on ours.</li>
+    <li><strong>Teacher review</strong> of every AI grade before it goes to a student.</li>
+    <li><strong>Google Classroom sync</strong>, so assignments come in and grades go back without extra steps.</li>
+    <li><strong>Student improvement view</strong>, which shows each student which part of their work to improve.</li>
+    <li><strong>Fraud detection</strong>, which flags suspicious submissions for the teacher to check.</li>
+  </ul>
+  <p>I also built the React frontend, designed the PostgreSQL and MongoDB data model, and built the dashboards teachers use.</p>
+
+  <h2>Making it usable</h2>
+  <p>Some teachers and students found the platform hard to use at first. We sat with them and taught them how to use it until they could work on their own. Along the way I also taught GitHub and databases to teachers and interns on the project.</p>
+
+  <h2>How we measured success</h2>
+  <p>The goal was time back for teachers, so that was the main measure. In a survey of 50 teachers, grading time went down by 65%. Adoption was the second measure. More than 76 teachers across 5+ schools now grade over 250 assignments a week with it, and schools kept using it after my internship ended.</p>
+
+  <h2>What I learned</h2>
+  <ul class="plain">
+    <li>The first idea that works technically is not always what customers want. Showing teachers fully automated grading early saved us from building the wrong product.</li>
+    <li>Trust is a feature. Keeping a human in the loop is what made schools comfortable adopting it.</li>
+    <li>Adoption needs more than good software. Training teachers in person mattered as much as any feature we shipped.</li>
+  </ul>
+
+  <h2>What I would build next</h2>
+  <p>I would take Scan to Score to higher levels of education, such as universities, where class sizes are bigger and the grading load is heavier. That would bring new problems, like longer and more open ended answers and different rubric styles, and I would work through them the same way, with real teachers and short feedback rounds.</p>
+
+  <p class="note">Written by Satwik Kotta. Numbers come from the schools' usage and a survey of 50 teachers. Contact <a href="mailto:satwikkotta09@gmail.com">satwikkotta09@gmail.com</a>.</p>
+</main>
+</body>
+</html>
